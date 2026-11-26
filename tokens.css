@@ -1,0 +1,70 @@
+/* Design tokens. These become the production tokens module: change values here only. */
+:root {
+  /* text scale: the DEMO "Text size" control changes this (accessibility large text) */
+  --text-scale: 1;
+
+  /* colour */
+  --color-bg: #1a1917;
+  --color-surface: #252320;
+  --color-surface-2: #33302c;
+  --color-surface-glass: rgba(37, 35, 32, 0.82);
+  --color-border: rgba(243, 237, 228, 0.09);
+  --color-text: #f3ede4;
+  --color-text-muted: #a49d92;
+  --color-primary: #f0872f;
+  --color-primary-soft: rgba(240, 135, 47, 0.14);
+  --color-on-primary: #1a1917;
+  --color-success: #41c383;
+  --color-danger: #ff5d62;
+  --color-danger-soft: rgba(255, 93, 98, 0.12);
+  --color-scrim: rgba(0, 0, 0, 0.62);
+  --color-photo-glass: rgba(26, 25, 23, 0.72);
+
+  /* type */
+  --font-family: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-xs: calc(12px * var(--text-scale));
+  --font-sm: calc(14px * var(--text-scale));
+  --font-md: calc(16px * var(--text-scale));
+  --font-lg: calc(19px * var(--text-scale));
+  --font-xl: calc(25px * var(--text-scale));
+  --font-2xl: calc(34px * var(--text-scale));
+  --weight-regular: 400;
+  --weight-medium: 600;
+  --weight-bold: 700;
+  --weight-heavy: 800;
+  --line-tight: 1.15;
+  --line-body: 1.5;
+  --tracking-tight: -0.02em;
+
+  /* spacing: 4 px scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* radii */
+  --radius-s: 10px;
+  --radius-m: 14px;
+  --radius-l: 22px;
+  --radius-xl: 30px;
+  --radius-pill: 999px;
+
+  /* sizes */
+  --size-tap: 52px;
+  --size-icon: 20px;
+  --size-icon-lg: 26px;
+  --size-thumb: 28px;
+  --size-card-photo: 216px;
+  --size-hero: 400px;
+  --size-logo: 64px;
+  --size-avatar: 60px;
+  --size-tabbar: 66px;
+
+  /* effects */
+  --blur-glass: blur(18px) saturate(1.4);
+  --shadow-float: 0 12px 36px rgba(0, 0, 0, 0.55);
+}
