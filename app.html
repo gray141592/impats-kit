@@ -173,7 +173,8 @@ b { font-weight: var(--weight-bold); }
 .input.invalid { border-color: var(--color-danger); }
 .input input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; padding: var(--space-3) var(--space-4); }
 .input input::placeholder { color: var(--color-text-muted); opacity: .6; }
-.err { color: var(--color-danger); font-size: var(--font-sm); min-height: calc(var(--font-sm) * 1.5); margin: var(--space-1) 0 var(--space-2); }
+.err { color: var(--color-danger); font-size: var(--font-sm); margin: var(--space-1) 0 var(--space-2); }
+.err:empty { margin: 0; }
 .hint { color: var(--color-text-muted); font-size: var(--font-sm); margin: var(--space-1) 0 var(--space-2); }
 .notice { border-radius: var(--radius-m); padding: var(--space-3) var(--space-4); font-size: var(--font-sm); display: flex; gap: var(--space-3); align-items: flex-start; }
 .notice .ic { margin-top: 1px; }
@@ -192,10 +193,20 @@ b { font-weight: var(--weight-bold); }
 .chip.mini .ic { width: var(--space-3); height: var(--space-3); stroke-width: 2.6; }
 .chip.mini.on { background: var(--color-primary-soft); color: var(--color-primary); border-color: transparent; }
 
-.slider-value { font-size: var(--font-2xl); font-weight: var(--weight-heavy); letter-spacing: var(--tracking-tight); line-height: var(--line-tight); }
-.slider-value.unset { color: var(--color-text-muted); font-weight: var(--weight-regular); font-size: var(--font-md); line-height: calc(var(--font-2xl) * 1.15); letter-spacing: 0; }
+/* icon left, value centred, title right, on one line */
+.vhead { display: grid; grid-template-columns: var(--space-6) 1fr minmax(0, 34%); align-items: center; gap: var(--space-3); min-height: var(--size-tap); }
+.vhead > .ic { color: var(--color-primary); }
+.vhead .label { margin: 0; text-align: right; }
+.vval { text-align: center; font-size: var(--font-lg); font-weight: var(--weight-bold); letter-spacing: var(--tracking-tight); overflow-wrap: anywhere; }
+.vval .none { color: var(--color-text-muted); font-weight: var(--weight-regular); font-size: var(--font-md); letter-spacing: 0; }
+.field > .vhead { margin-bottom: var(--space-2); }
+.vlist { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-l); padding: 0 var(--space-4); }
+.vlist > .vhead + .vhead { border-top: 1px solid var(--color-border); }
+.vlist > .vhead { padding: var(--space-2) 0; }
+.slider-value { font-size: var(--font-xl); font-weight: var(--weight-heavy); letter-spacing: var(--tracking-tight); line-height: var(--line-tight); }
+.slider-value.unset { color: var(--color-text-muted); font-weight: var(--weight-regular); font-size: var(--font-md); line-height: calc(var(--font-xl) * 1.15); letter-spacing: 0; }
 input[type=range].single { width: 100%; height: var(--size-tap); accent-color: var(--color-primary); margin: 0; }
-.range-labels { display: flex; justify-content: space-between; font-size: var(--font-sm); color: var(--color-text-muted); }
+.range-labels { margin-top: calc(var(--space-3) * -1); display: flex; justify-content: space-between; font-size: var(--font-sm); color: var(--color-text-muted); }
 .range-labels b { color: var(--color-text); font-size: var(--font-lg); }
 .dual { position: relative; height: var(--size-tap); }
 .dual-track { position: absolute; left: 0; right: 0; top: 50%; height: var(--space-1); margin-top: calc(var(--space-1) / -2); background: var(--color-surface-2); border-radius: var(--radius-pill); }
@@ -242,10 +253,12 @@ input[type=range].single { width: 100%; height: var(--size-tap); accent-color: v
 
 /* floating tab bar */
 .tabbar { position: absolute; left: var(--space-5); right: var(--space-5); bottom: var(--space-2); z-index: 5; min-height: var(--size-tabbar); display: flex; padding: var(--space-2); gap: var(--space-1); background: var(--color-surface-glass); -webkit-backdrop-filter: var(--blur-glass); backdrop-filter: var(--blur-glass); border: 1px solid var(--color-border); border-radius: var(--radius-pill); box-shadow: var(--shadow-float); }
-.tabbar button { flex: 1; display: flex; align-items: center; justify-content: center; gap: var(--space-2); font-size: var(--font-sm); font-weight: var(--weight-medium); color: var(--color-text-muted); border-radius: var(--radius-pill); padding: var(--space-2); flex-wrap: wrap; }
-.tabbar button span { display: none; }
-.tabbar button.on { background: var(--color-primary); color: var(--color-on-primary); flex: 1.9; font-weight: var(--weight-bold); }
-.tabbar button.on span { display: inline; }
+.tabbar button { position: relative; z-index: 1; flex: 1; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); border-radius: var(--radius-pill); padding: var(--space-2); transition: color 280ms cubic-bezier(.3,.7,.2,1); }
+.tabbar button.on { color: var(--color-on-primary); }
+.tabbar button svg { transition: transform 280ms cubic-bezier(.3,.7,.2,1); }
+.tabbar button.on svg { transform: scale(1.12); }
+/* one pill per tab bar; it slides between the three equal slots */
+.tab-ind { position: absolute; top: var(--space-2); bottom: var(--space-2); left: var(--space-2); width: calc((100% - 2 * var(--space-2) - 2 * var(--space-1)) / 3); border-radius: var(--radius-pill); background: var(--color-primary); transform: translateX(calc(var(--tab) * (100% + var(--space-1)))); transition: transform 320ms cubic-bezier(.3,.7,.2,1); }
 
 /* details */
 .hero { height: var(--size-hero); position: relative; flex: none; margin-top: -44px; background: var(--color-surface); }
@@ -470,6 +483,60 @@ i.ic.xl { font-size: var(--space-10); }
 .card-body .state { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--font-sm); font-weight: var(--weight-medium); color: var(--color-success); }
 .card-body .state.when { color: var(--color-primary); }
 .card-body .state .ic { font-size: 16px; }
+
+/* ---------- options: segmented track (iOS, Zillow), the choice is a filled segment ---------- */
+/* B · Segmented, as in iOS and Zillow: one track, the choice is a filled segment */
+.tiles { flex-wrap: nowrap; gap: var(--space-1); padding: var(--space-1); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-pill); }
+.tile { flex-direction: row; min-height: calc(var(--size-tap) - var(--space-2)); padding: var(--space-2); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--color-text-muted); font-size: var(--font-md); }
+.tile .ic { width: var(--space-5); height: var(--space-5); }
+.tile .num { font-size: var(--font-md); font-weight: var(--weight-bold); color: var(--color-text-muted); }
+.tile.on { background: var(--color-primary); color: var(--color-on-primary); font-weight: var(--weight-bold); }
+.tile.on .num { color: var(--color-on-primary); }
+.form .chip { border-radius: var(--radius-m); }
+.form .chip.on { background: var(--color-primary-soft); border-color: var(--color-primary); color: var(--color-primary); }
+
+/* ---------- form layout: cards (iOS Settings, Revolut) ---------- */
+.form { display: flex; flex-direction: column; gap: var(--space-5); }
+.form .input input[data-phl]::placeholder { color: transparent; }
+.form .field > .err:empty, .form .field > .hint { grid-column: 1 / -1; }
+
+/* B · Cards, as in iOS Settings and Revolut: each question is a card with an icon badge; text inputs are joined rows, label left, value right */
+.form > .field:not(:has(> .input)) { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-l); padding: var(--space-4); }
+.form .vhead { grid-template-columns: auto 1fr auto; min-height: 0; }
+.form .vhead > .ic { grid-column: 1; grid-row: 1; box-sizing: content-box; width: var(--space-5); height: var(--space-5); padding: var(--space-2); border-radius: 50%; background: var(--color-primary-soft); color: var(--color-primary); }
+.form .vhead .label { grid-column: 2; grid-row: 1; text-align: left; font-size: var(--font-md); font-weight: var(--weight-bold); color: var(--color-text); }
+.form .vhead .vval { grid-column: 3; grid-row: 1; text-align: right; font-size: var(--font-md); font-weight: var(--weight-medium); color: var(--color-text-muted); }
+.form .vhead.big .slider-value { font-size: var(--font-md); color: var(--color-primary); font-weight: var(--weight-bold); }
+.form .field > .vhead { margin-bottom: var(--space-3); }
+.form > .field:not(:has(> .input)) .tiles { background: var(--color-bg); }
+.form > .field:not(:has(> .input)) .chip { background: var(--color-bg); }
+.form > .field:has(> .input) { display: grid; grid-template-columns: minmax(0, 40%) 1fr; align-items: center; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 0; padding: 0 var(--space-4); }
+.form > .field:has(> .input) > label { margin: 0; color: var(--color-text); font-size: var(--font-md); font-weight: var(--weight-medium); }
+.form > .field:has(> .input) > .input { background: none; border: 0; min-height: var(--size-tap); }
+.form > .field:has(> .input) .lead { display: none; }
+.form > .field:has(> .input) input { text-align: right; padding-right: 0; }
+.form > .field:has(> .input):focus-within > label { color: var(--color-primary); }
+.form > .field:has(> .input) + .field:has(> .input) { margin-top: calc(-1 * var(--space-5)); border-top: 0; }
+.form > .field:has(> .input):first-child, .form > :not(.field:has(> .input)) + .field:has(> .input) { border-top-left-radius: var(--radius-l); border-top-right-radius: var(--radius-l); }
+.form > .field:has(> .input):not(:has(+ .field > .input)) { border-bottom-left-radius: var(--radius-l); border-bottom-right-radius: var(--radius-l); }
+
+/* question headers carry only the title; the answer lives in the control below it */
+.vval:empty { display: none; }
+.range-labels { align-items: baseline; }
+.range-labels .slider-value { font-size: var(--font-lg); font-weight: var(--weight-heavy); color: var(--color-text); letter-spacing: var(--tracking-tight); }
+.range-labels .slider-value.unset { font-size: var(--font-sm); font-weight: var(--weight-regular); color: var(--color-text-muted); letter-spacing: 0; }
+.range-labels:has(.slider-value) { display: grid; grid-template-columns: 1fr auto 1fr; }
+.range-labels:has(.slider-value) > :last-child { text-align: right; }
+/* B: neighbouring selected segments join into one pill (e.g. rooms 2–3) */
+.tiles { gap: 0; }
+.tile.on:has(+ .tile.on) { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.tile.on + .tile.on { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+
+/* active-filter chips on the list: the remove icon is a font glyph, size it like the text and centre it */
+.chip.mini { align-items: center; gap: var(--space-1); line-height: 1; }
+.chip.mini i.ic { width: auto; height: auto; font-size: var(--font-sm); }
+.form > .field:not(:has(> .input)) .chip.on { background: var(--color-primary-soft); }
+.tiles .tile i.ic { display: none; }
 </style>
 </head>
 <body>
@@ -683,7 +750,7 @@ const S = {
   detailId: null, slide: 0, video: 'idle', pdf: 'loading',
   sheet: null, pw: { current: '', next: '', confirm: '', show: false },
   pushVisible: false, pushed: false, openFromPush: false,
-  demo: { aptData: 'normal', viewDates: true, videoFails: false, textScale: 1, small: false, perm: 'unasked', updateRequired: false },
+  demo: { aptData: 'normal', viewDates: true, videoFails: false, textScale: 1, small: false,  perm: 'unasked', updateRequired: false },
 };
 
 /* ---------------- fake backend ---------------- */
@@ -752,7 +819,7 @@ function filterChips(f) {
   const out = [];
   if (f.priceMin != null || f.priceMax != null) { const b = bounds(); out.push({ k: 'price', t: `${eur(f.priceMin ?? b.pMin)} – ${eur(f.priceMax ?? b.pMax)}` }); }
   f.hoods.forEach((h) => out.push({ k: 'hoods', v: h, t: h }));
-  f.rooms.forEach((r) => out.push({ k: 'rooms', v: r, t: r }));
+  f.rooms.forEach((r) => out.push({ k: 'rooms', v: r, t: `${roomNum(r)} room${roomNum(r) === '1' ? '' : 's'}` }));
   if (f.sizeMin != null || f.sizeMax != null) { const b = bounds(); out.push({ k: 'size', t: `${f.sizeMin ?? b.sMin} – ${f.sizeMax ?? b.sMax} m²` }); }
   if (f.furnished != null) out.push({ k: 'furnished', t: f.furnished ? 'Furnished' : 'Unfurnished' });
   f.features.forEach((x) => out.push({ k: 'features', v: x, t: x }));
@@ -827,7 +894,7 @@ const btn = (label, act, o = {}) => `<button class="btn ${o.cls || ''}" data-act
 const textField = (label, path, o = {}) => {
   const k = path.split('.').pop(); const v = getPath(path);
   return `<div class="field"><label>${esc(label)}</label><div class="input ${S.errors[k] ? 'invalid' : ''}">
-    ${o.lead ? `<span class="lead">${ic(o.lead)}</span>` : ''}<input type="${o.type || 'text'}" value="${esc(v)}" data-bind="${path}" ${o.enter ? `data-enter="${o.enter}"` : ''} placeholder="${esc(o.ph || '')}" autocomplete="off" autocapitalize="${o.cap || 'off'}">
+    ${o.lead ? `<span class="lead">${ic(o.lead)}</span>` : ''}<input type="${o.type || 'text'}" value="${esc(v)}" data-bind="${path}" ${o.enter ? `data-enter="${o.enter}"` : ''} placeholder="${esc(o.ph || label)}"${o.ph ? '' : ' data-phl'} autocomplete="off" autocapitalize="${o.cap || 'off'}">
     ${o.trail || ''}</div>${o.hint && !S.errors[k] ? `<div class="hint" data-err="${k}">${esc(o.hint)}</div>` : errSlot(k)}</div>`;
 };
 const getPath = (path) => path.split('.').reduce((o, k) => o[k], S);
@@ -863,30 +930,39 @@ function viewingDay(id) {
   const d = new Date(VIEWING_DATES[id]);
   return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) + ', ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 }
-const tabbar = () => `<nav class="tabbar">${[['apartments', 'building', 'Apartments'], ['viewings', 'calendar', 'Viewings'], ['profile', 'user', 'Profile']]
-  .map(([r, i, l]) => `<button class="${S.route === r ? 'on' : ''}" data-act="tab" data-route="${r}">${ic(i)}<span>${l}</span></button>`).join('')}</nav>`;
+const TAB_ITEMS = [['apartments', 'building', 'Apartments'], ['viewings', 'calendar', 'Viewings'], ['profile', 'user', 'Profile']];
+let lastTab = -1; // the indicator is drawn at the previous tab, then slides to the new one after render
+const tabbar = () => {
+  const i = TAB_ITEMS.findIndex(([r]) => r === S.route);
+  const from = lastTab < 0 ? i : lastTab;
+  return `<nav class="tabbar" data-to="${i}"><span class="tab-ind" style="--tab:${from}"></span>${TAB_ITEMS
+    .map(([r, ic_, l], k) => `<button class="${k === from ? 'on' : ''}" data-act="tab" data-route="${r}" aria-label="${l}">${ic(ic_)}</button>`).join('')}</nav>`;
+};
 const offlineBanner = () => `<div class="banner">${ic('wifioff')}<span>You're offline. Showing the last saved list.</span></div>`;
 
 /* profile fields: used by profile completion (in steps) and by edit profile (one page) */
 const seg = (path, opts) => `<div class="seg">${opts.map(([v, l]) => `<button class="${getPath(path) === v ? 'on' : ''}" data-act="set" data-path="${path}" data-val='${JSON.stringify(v)}'>${l}</button>`).join('')}</div>`;
-const tiles = (path, opts, multi) => `<div class="tiles">${opts.map(([v, l, i]) => {
+const tiles = (path, opts, multi, unset) => `<div class="tiles ${multi ? 'multi' : ''}">${opts.map(([v, l, i]) => {
   const cur = getPath(path); const on = multi ? cur.includes(v) : cur === v;
-  return `<button class="tile ${on ? 'on' : ''}" data-act="${multi ? 'tog' : 'set'}" data-path="${path}" data-val='${multi ? v : JSON.stringify(v)}'>${i ? ic(i, 'lg') : ''}<span>${l}</span></button>`;
+  return `<button class="tile ${on ? 'on' : ''}" data-act="${multi ? 'tog' : 'set'}" data-path="${path}" data-val='${multi ? v : JSON.stringify(v)}'${unset ? ' data-unset="1"' : ''}>${i ? ic(i, 'lg') : ''}<span>${l}</span></button>`;
 }).join('')}</div>`;
+/* one row: icon left, current value centred, title right (fields, profile summary, filters) */
+const vhead = (icon, value, label, cls = '') => `<div class="vhead ${cls}">${ic(icon)}<div class="vval">${value}</div><span class="label">${label}</span></div>`;
+const FAMILY = { single: ['user', 'Single'], couple: ['couple', 'Couple'], family: ['family', 'Family'] };
+const listOr = (arr, none) => (arr.length ? arr.map(esc).join(', ') : `<span class="none">${none}</span>`);
 const slider = (label, path, max, step, icon) => {
   const v = getPath(path); const k = path.split('.').pop();
-  return `<div class="field"><span class="label ilabel">${ic(icon)}${label}</span>
-    <div class="slider-value ${v == null ? 'unset' : ''}" data-out="${path}">${v == null ? 'Move the slider to set' : sliderText(v, max)}</div>
+  return `<div class="field">${vhead(icon, '', label)}
     <input class="single" type="range" min="0" max="${max}" step="${step}" value="${v ?? 0}" data-num="${path}">
-    <div class="range-labels"><span>€0</span><span>${eur(max)}+</span></div>${errSlot(k)}</div>`;
+    <div class="range-labels"><span>€0</span><b class="slider-value ${v == null ? 'unset' : ''}" data-out="${path}">${v == null ? 'Move the slider' : sliderText(v, max)}</b><span>${eur(max)}+</span></div>${errSlot(k)}</div>`;
 };
 const F = {
-  about: (p) => textField('First name', p + '.firstName', { cap: 'words' }) + textField('Last name', p + '.lastName', { cap: 'words' }) + textField('Company name (optional)', p + '.company', { cap: 'words' }),
-  household: (p) => `<div class="field"><span class="label">Household</span>${tiles(p + '.family', [['single', 'Single', 'user'], ['couple', 'Couple', 'couple'], ['family', 'Family', 'family']])}${errSlot('family')}</div>`
-    + slider('Net combined income / month', p + '.income', 10000, 100, 'wallet'),
-  search: (p) => slider('Warm rent / month', p + '.rent', 3000, 100, 'home')
-    + `<div class="field"><span class="label ilabel">${ic('rooms')}Rooms, one or more</span>${tiles(p + '.rooms', ROOM_OPTIONS.map((r) => [r, `<b class="num">${roomNum(r)}</b>`]), true)}${errSlot('rooms')}</div>`
-    + `<div class="field"><span class="label">Furnishing</span>${tiles(p + '.furnished', [[true, 'Furnished', 'sofa'], [false, 'Unfurnished', 'home']])}${errSlot('furnished')}</div>`,
+  about: (p) => textField('First name', p + '.firstName', { cap: 'words', lead: 'user' }) + textField('Last name', p + '.lastName', { cap: 'words', lead: 'user' }) + textField('Company (optional)', p + '.company', { cap: 'words', lead: 'building' }),
+  household: (p) => `<div class="field">${vhead('couple', '', 'Household')}${tiles(p + '.family', [['single', 'Single', 'user'], ['couple', 'Couple', 'couple'], ['family', 'Family', 'family']])}${errSlot('family')}</div>`
+    + slider('Income', p + '.income', 10000, 100, 'wallet'),
+  search: (p) => slider('Budget', p + '.rent', 3000, 100, 'home')
+    + `<div class="field">${vhead('rooms', '', 'Rooms')}${tiles(p + '.rooms', ROOM_OPTIONS.map((r) => [r, `<b class="num">${roomNum(r)}</b>`]), true)}${errSlot('rooms')}</div>`
+    + `<div class="field">${vhead('sofa', '', 'Furnishing')}${tiles(p + '.furnished', [[true, 'Furnished', 'sofa'], [false, 'Unfurnished', 'home']])}${errSlot('furnished')}</div>`,
 };
 function validate(d, parts) {
   const e = {};
@@ -910,7 +986,7 @@ const SCREENS = {
     <div class="stack-s"><h1>Sign in to Impats</h1><p class="muted">With the details you got from Impats.</p></div>
     ${S.notice === 'inactive' ? `<div class="notice warn">${ic('alert')}<span>You have been signed out because your account is no longer active. Contact Impats if you think this is a mistake.</span></div>` : ''}
     ${S.notice === 'deleted' ? `<div class="notice info">${ic('check')}<span>Your account has been deleted.</span></div>` : ''}
-    <div>${textField('Email', 'form.email', { type: 'email', enter: 'signin', ph: 'you@example.com', lead: 'mail' })}
+    <div class="form">${textField('Email', 'form.email', { type: 'email', enter: 'signin', ph: 'you@example.com', lead: 'mail' })}
     ${textField('Password', 'form.password', { type: S.form.showPw ? 'text' : 'password', enter: 'signin', lead: 'lock', trail: `<button class="iconbtn ghost" data-act="togglePw" aria-label="Show or hide password">${ic(S.form.showPw ? 'eyeoff' : 'eye')}</button>` })}</div>
     <div class="notice-slot">${S.formError ? `<div class="notice error">${ic('alert')}<span>${esc(S.formError)}</span></div>` : ''}</div>
     ${btn(S.busy ? 'Signing in…' : 'Sign in', 'signin', { busyable: true })}
@@ -926,7 +1002,7 @@ const SCREENS = {
         ${st > 0 ? `<button class="iconbtn" data-act="onbBack" aria-label="Back">${ic('back')}</button>` : ''}
         <div class="grow"><span class="muted small">Step ${st + 1} of 3</span>
           <div class="steps">${[0, 1, 2].map((i) => `<i class="${i <= st ? 'on' : ''}"></i>`).join('')}</div></div></div>
-      <div class="scroll" data-key="onb${st}"><div class="pad stack"><div class="stack-s"><h1>${titles[st]}</h1><p class="muted">${subs[st]}</p></div><div>${body}</div></div></div>
+      <div class="scroll" data-key="onb${st}"><div class="pad stack"><div class="stack-s"><h1>${titles[st]}</h1><p class="muted">${subs[st]}</p></div><div class="form">${body}</div></div></div>
       <div class="footer">${S.formError ? `<div class="notice error">${ic('alert')}<span>${esc(S.formError)}</span></div>` : ''}
         <div class="btn-row">${btn('Sign out', 'logout', { cls: 'secondary auto' })}${btn(st < 2 ? 'Continue' : S.busy ? 'Saving…' : 'Finish', 'onbNext', { busyable: true })}</div></div></div>`;
   },
@@ -941,8 +1017,7 @@ const SCREENS = {
     else if (!shown.length) body = `<div class="center">${ic('searchoff', 'xl')}<h2>No apartments found</h2><p class="muted">Try fewer filters.</p>${btn('Reset all filters', 'resetFilter', { cls: 'auto' })}</div>`;
     else body = shown.map(aptCard).join('');
     const ok = L.status === 'ok';
-    return `<div class="screen"><div class="header"><div class="grow"><h1>Apartments</h1>
-        <span class="muted small">${ok ? (n ? `${shown.length} of ${L.items.length} match your filters` : `${L.items.length} available`) : '&nbsp;'}</span></div>
+    return `<div class="screen"><div class="header"><div class="grow"><h1>Apartments</h1></div>
         <button class="iconbtn" data-act="openFilter" aria-label="Filters" ${ok && L.items.length ? '' : 'disabled'}>${ic('filter')}${n ? `<span class="count-pill">${n}</span>` : ''}</button></div>
       <div class="scroll tabbed" data-key="apts"><div class="pad stack" style="padding-top:0;min-height:100%">
         ${L.stale ? offlineBanner() : ''}
@@ -984,7 +1059,7 @@ const SCREENS = {
 
   viewings: () => {
     const list = S.user.viewings.map(apt).filter(Boolean);
-    return `<div class="screen"><div class="header"><div class="grow"><h1>My viewings</h1><span class="muted small">${list.length ? `${list.length} requested` : '&nbsp;'}</span></div></div>
+    return `<div class="screen"><div class="header"><div class="grow"><h1>Viewings</h1></div></div>
       <div class="scroll tabbed" data-key="view"><div class="pad stack" style="padding-top:0;min-height:100%">${list.length ? list.map(aptCard).join('')
         : `<div class="center">${ic('calendar', 'xl')}<h2>No viewings yet</h2><p class="muted">Request one from any apartment.</p>${btn('Browse apartments', 'tab', { cls: 'auto', args: 'data-route="apartments"' })}</div>`}</div></div></div>`;
   },
@@ -996,11 +1071,9 @@ const SCREENS = {
       <div class="scroll tabbed" data-key="prof"><div class="pad stack" style="padding-top:0">
         <div class="group rowi"><div class="avatar">${esc(initials)}</div><div class="grow"><b>${esc(u.firstName)} ${esc(u.lastName)}</b>${u.company ? `<br><span class="small">${esc(u.company)}</span>` : ''}<br><span class="muted small">${esc(u.email)}</span></div></div>
         <div><div class="section-head"><h3>About you</h3><button class="link" data-act="editProfile">${ic('pencil')}Edit</button></div>
-          <div class="stats">${[[{ single: 'user', couple: 'couple', family: 'family' }[u.family], { single: 'Single', couple: 'Couple', family: 'Family' }[u.family], 'Household'], ['wallet', sliderText(u.income, 10000), 'Net income / month']]
-            .map(([i, v, l]) => `<div class="stat">${ic(i, 'lg')}<b>${esc(v)}</b><span class="muted small">${l}</span></div>`).join('')}</div></div>
+          <div class="vlist">${vhead(FAMILY[u.family][0], FAMILY[u.family][1], 'Household')}${vhead('wallet', sliderText(u.income, 10000), 'Income')}</div></div>
         <div><div class="section-head"><h3>Looking for</h3></div>
-          <div class="stats">${[['home', sliderText(u.rent, 3000), 'Rent / month'], ['rooms', u.rooms.map(roomNum).join(', '), 'Rooms'], [u.furnished ? 'sofa' : 'home', u.furnished ? 'Furnished' : 'Unfurnished', 'Furnishing']]
-            .map(([i, v, l]) => `<div class="stat">${ic(i, 'lg')}<b>${esc(v)}</b><span class="muted small">${l}</span></div>`).join('')}</div></div>
+          <div class="vlist">${vhead('home', sliderText(u.rent, 3000), 'Budget')}${vhead('rooms', u.rooms.map(roomNum).join(', '), 'Rooms')}${vhead(u.furnished ? 'sofa' : 'home', u.furnished ? 'Furnished' : 'Unfurnished', 'Furnishing')}</div></div>
         <div><div class="group"><button class="rowi" data-act="toggleNotif">${ic('bell')}<span class="grow">New apartment alerts${u.notifications && S.demo.perm === 'denied' ? '<br><span class="small" style="color:var(--color-primary)">Notifications are off for Impats in your phone settings. Tap to open settings.</span>' : ''}</span><span class="switch ${u.notifications ? 'on' : ''}"></span></button>
             <button class="rowi" data-act="sheet" data-name="password">${ic('lock')}<span class="grow">Change password</span>${ic('chev')}</button>
             <button class="rowi" data-act="logout">${ic('logout')}<span class="grow">Log out</span></button></div></div>
@@ -1008,9 +1081,6 @@ const SCREENS = {
       </div></div></div>`;
   },
 
-  editProfile: () => `<div class="screen"><div class="header"><button class="iconbtn" data-act="back" aria-label="Back">${ic('back')}</button><div class="grow"><h2>Edit profile</h2></div></div>
-    <div class="scroll" data-key="edit"><div class="pad">${F.about('edit.d')}${F.household('edit.d')}${F.search('edit.d')}</div></div>
-    <div class="footer">${S.formError ? `<div class="notice error">${ic('alert')}<span>${esc(S.formError)}</span></div>` : ''}${btn(S.busy ? 'Saving…' : 'Save', 'saveProfile', { busyable: true })}</div></div>`,
 };
 
 function videoSlide(a) {
@@ -1026,36 +1096,39 @@ function videoSlide(a) {
 /* ---------------- sheets ---------------- */
 const sheetHead = (t) => `<div class="sheet-head"><h2>${t}</h2><button class="iconbtn ghost" data-act="closeSheet" aria-label="Close">${ic('close')}</button></div>`;
 const SHEETS = {
+  editProfile: () => `<div class="sheet tall">${sheetHead('Edit profile')}<div class="sheet-body form" data-key="edit">${F.about('edit.d')}${F.household('edit.d')}${F.search('edit.d')}</div>
+    <div class="sheet-foot" style="flex-direction:column;align-items:stretch">${S.formError ? `<div class="notice error">${ic('alert')}<span>${esc(S.formError)}</span></div>` : ''}${btn(S.busy ? 'Saving…' : 'Save', 'saveProfile', { busyable: true })}</div></div>`,
   filter: () => {
     const b = bounds(); const d = S.draft; const n = applyFilter(S.list.items, draftToFilter(d)).length;
     const chips = (k, opts) => `<div class="chips">${opts.map((o) => `<button class="chip ${d[k].includes(o) ? 'on' : ''}" data-act="tog" data-path="draft.${k}" data-val="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
+    const range = (k) => `<span data-lo="${k}"></span> – <span data-hi="${k}"></span>`;
+    const many = (arr) => (arr.length ? `${arr.length} selected` : '<span class="none">Any</span>');
     const dual = (k, min, max, step) => `<div class="dual"><div class="dual-track"><div class="dual-fill" data-fill="${k}"></div></div>
       <input type="range" min="${min}" max="${max}" step="${step}" value="${d[k + 'Min']}" data-dual="${k}" data-end="lo" aria-label="Minimum">
       <input type="range" min="${min}" max="${max}" step="${step}" value="${d[k + 'Max']}" data-dual="${k}" data-end="hi" aria-label="Maximum"></div>
       <div class="range-labels"><b data-lo="${k}"></b><b data-hi="${k}"></b></div>`;
-    return `<div class="sheet tall">${sheetHead('Filters')}<div class="sheet-body" data-key="filter">
-      <div class="stack-s"><h3 class="ilabel">${ic('wallet')}Price / month</h3>${dual('price', b.pMin, b.pMax, 10)}</div>
-      <div class="stack-s"><h3 class="ilabel">${ic('pin')}Neighbourhoods</h3>${chips('hoods', b.hoods)}</div>
-      <div class="stack-s"><h3 class="ilabel">${ic('rooms')}Rooms</h3>${tiles('draft.rooms', b.rooms.map((r) => [r, `<b class="num">${esc(roomNum(r))}</b>`]), true)}</div>
-      <div class="stack-s"><h3 class="ilabel">${ic('size')}Size</h3>${dual('size', b.sMin, b.sMax, 1)}</div>
-      <div class="stack-s"><h3 class="ilabel">${ic('sofa')}Furnishing</h3>${tiles('draft.furnished', [[true, 'Furnished', 'sofa'], [false, 'Unfurnished', 'home'], [null, 'Any', 'check']])}</div>
-      ${b.features.length ? `<div class="stack-s"><h3 class="ilabel">${ic('check')}Must have</h3><div class="chips">${b.features.map((o) => `<button class="chip ${d.features.includes(o) ? 'on' : ''}" data-act="tog" data-path="draft.features" data-val="${esc(o)}">${ic(FEATURE_ICON[o] || 'check')}${esc(o)}</button>`).join('')}</div></div>` : ''}
+    return `<div class="sheet tall">${sheetHead('Filters')}<div class="sheet-body form" data-key="filter">
+      <div class="field">${vhead('wallet', '', 'Price')}${dual('price', b.pMin, b.pMax, 10)}</div>
+      <div class="field">${vhead('pin', '', 'Area')}${chips('hoods', b.hoods)}</div>
+      <div class="field">${vhead('rooms', '', 'Rooms')}${tiles('draft.rooms', b.rooms.map((r) => [r, `<b class="num">${esc(roomNum(r))}</b>`]), true)}</div>
+      <div class="field">${vhead('size', '', 'Size')}${dual('size', b.sMin, b.sMax, 1)}</div>
+      <div class="field">${vhead('sofa', '', 'Furnishing')}${tiles('draft.furnished', [[true, 'Furnished', 'sofa'], [false, 'Unfurnished', 'home']], false, true)}</div>
+      ${b.features.length ? `<div class="field">${vhead('check', '', 'Extras')}<div class="chips">${b.features.map((o) => `<button class="chip ${d.features.includes(o) ? 'on' : ''}" data-act="tog" data-path="draft.features" data-val="${esc(o)}">${ic(FEATURE_ICON[o] || 'check')}${esc(o)}</button>`).join('')}</div></div>` : ''}
       </div><div class="sheet-foot"><button class="link" data-act="resetDraft">Reset</button><button class="btn" data-act="applyFilter" id="filterCta">${n ? `Show ${n} apartment${n === 1 ? '' : 's'}` : 'No apartments match'}</button></div></div>`;
   },
   request: () => {
     const a = apt(S.detailId);
     return `<div class="sheet">${sheetHead('Request a viewing?')}<div class="sheet-body">
       <p class="muted" style="overflow-wrap:anywhere">${esc(a.title)}</p>
-      <div class="stats"><div class="stat">${ic('wallet', 'lg')}<b>${sliderText(S.user.income, 10000)}</b><span class="muted small">Your net income / month</span></div>
-        <div class="stat">${ic('home', 'lg')}<b>${eur(a.price)}</b><span class="muted small">Rent / month</span></div></div>
+      <div class="vlist">${vhead('wallet', sliderText(S.user.income, 10000), 'Your income')}${vhead('home', eur(a.price), 'Rent')}</div>
       <div class="notice warn">${ic('doc')}<span>You get a viewing appointment after providing <b>all required documents</b>.</span></div>
       ${S.formError ? `<div class="notice error">${ic('alert')}<span>${esc(S.formError)}</span></div>` : ''}
       ${btn(S.busy ? 'Sending…' : 'Send request', 'requestViewing', { busyable: true })}${btn('Cancel', 'closeSheet', { cls: 'secondary' })}</div></div>`;
   },
   password: () => {
     const t = S.pw.show ? 'text' : 'password';
-    return `<div class="sheet">${sheetHead('Change password')}<div class="sheet-body" style="gap:0">
-      ${textField('Current password', 'pw.current', { type: t })}${textField('New password', 'pw.next', { type: t, hint: 'At least 8 characters' })}${textField('Repeat new password', 'pw.confirm', { type: t, enter: 'changePassword' })}
+    return `<div class="sheet">${sheetHead('Change password')}<div class="sheet-body">
+      <div class="form">${textField('Current password', 'pw.current', { type: t, lead: 'lock' })}${textField('New password', 'pw.next', { type: t, hint: 'At least 8 characters', lead: 'lock' })}${textField('Repeat new password', 'pw.confirm', { type: t, enter: 'changePassword', lead: 'lock' })}</div>
       <button class="link" data-act="set" data-path="pw.show" data-val="${!S.pw.show}">${ic(S.pw.show ? 'eyeoff' : 'eye')}${S.pw.show ? 'Hide' : 'Show'} passwords</button>
       ${S.formError ? `<div class="notice error" style="margin-bottom:var(--space-3)">${ic('alert')}<span>${esc(S.formError)}</span></div>` : ''}
       ${btn(S.busy ? 'Saving…' : 'Save new password', 'changePassword', { busyable: true })}</div></div>`;
@@ -1078,6 +1151,8 @@ function render() {
   app.querySelectorAll('[data-key]').forEach((el) => (tops[el.dataset.key] = el.scrollTop));
   app.innerHTML = SCREENS[S.route]() + (TABS.includes(S.route) ? tabbar() : '') + (S.sheet ? `<div class="scrim" data-act="closeSheet"></div>${SHEETS[S.sheet]()}` : '');
   app.querySelectorAll('[data-key]').forEach((el) => { if (tops[el.dataset.key]) el.scrollTop = tops[el.dataset.key]; });
+  const nav = app.querySelector('.tabbar');
+  if (nav) { const to = +nav.dataset.to; const ind = nav.querySelector('.tab-ind'); lastTab = to; ind.getBoundingClientRect(); ind.style.setProperty('--tab', to); nav.querySelectorAll('button').forEach((b, k) => b.classList.toggle('on', k === to)); }
   const car = $('#carousel');
   if (car) { car.scrollLeft = S.slide * car.clientWidth; car.addEventListener('scroll', onCarousel, { passive: true }); }
   syncDuals();
@@ -1140,7 +1215,7 @@ const hasErr = (e) => Object.keys(e).length > 0;
 /* ---------------- actions ---------------- */
 const A = {
   back, tab: (d) => { if (d.route === 'apartments' && S.route === 'apartments') return; go(d.route); },
-  set: (d) => { setPath(d.path, JSON.parse(d.val)); clearErr(d.path); render(); },
+  set: (d) => { const v = JSON.parse(d.val); setPath(d.path, d.unset && getPath(d.path) === v ? null : v); clearErr(d.path); render(); },
   tog: (d) => { const arr = getPath(d.path); const i = arr.indexOf(d.val); if (i < 0) arr.push(d.val); else arr.splice(i, 1); clearErr(d.path); render(); },
   togglePw: () => { S.form.showPw = !S.form.showPw; render(); },
   sheet: (d) => { S.sheet = d.name; S.formError = null; S.errors = {}; if (d.name === 'password') S.pw = { current: '', next: '', confirm: '', show: false }; render(); },
@@ -1203,12 +1278,12 @@ const A = {
     toast(`Thank you ${S.user.firstName}, your viewing request has been sent.`, 'success');
   },
 
-  editProfile: () => { const u = S.user; S.edit = { d: { firstName: u.firstName, lastName: u.lastName, company: u.company, family: u.family, income: u.income, rent: u.rent, rooms: [...u.rooms], furnished: u.furnished } }; go('editProfile', true); },
+  editProfile: () => { const u = S.user; S.edit = { d: { firstName: u.firstName, lastName: u.lastName, company: u.company, family: u.family, income: u.income, rent: u.rent, rooms: [...u.rooms], furnished: u.furnished } }; S.sheet = 'editProfile'; S.errors = {}; S.formError = null; tops.edit = 0; render(); },
   async saveProfile() {
     const d = S.edit.d; const e = validate(d, ['about', 'household', 'search']); if (hasErr(e)) return showErrors(e);
     S.busy = true; S.formError = null; render();
     try { await request(900); } catch (x) { S.busy = false; S.formError = netMsg(x); return render(); }
-    S.busy = false; Object.assign(S.user, d, { rooms: [...d.rooms] }); back(); toast('Profile updated', 'success');
+    S.busy = false; Object.assign(S.user, d, { rooms: [...d.rooms] }); S.sheet = null; render(); toast('Profile updated', 'success');
   },
   async toggleNotif() {
     const u = S.user;

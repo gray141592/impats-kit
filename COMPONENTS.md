@@ -7,7 +7,9 @@ For the owner's AI. Use these, and only these, when you change `app.html`. Value
 
 - Dark only. Warm charcoal background, orange (`--color-primary`) for actions, selection, "New" and fact icons.
 - Little text: icons and values instead of labels. One bold thing per screen: the photo.
-- Body content has no boxes, pills or dividing lines; hierarchy comes from type and spacing.
+- Apartment pages and lists have no boxes or dividing lines; hierarchy comes from type and spacing. Forms and the
+  profile summary are the exception: there, each question or group is a card (`--color-surface`, a border,
+  `--radius-l`).
 - Text over a photo always sits on a small charcoal plate (`--color-photo-glass`), never on the bare photo.
 - No all-caps labels.
 - The font in this file is the system font. The real app uses Bricolage Grotesque; do not add a font.
@@ -18,18 +20,20 @@ For the owner's AI. Use these, and only these, when you change `app.html`. Value
 |---|---|---|
 | Button | `btn(label, action, { cls })` | Pill. Classes: none (orange), `secondary`, `danger`. Shows a busy label while sending. |
 | Icon button | `.iconbtn` | Round. Can carry a small count badge (`.count-pill`). |
-| Text field | `textField(label, path, options)` | Label above, error text in a fixed slot below. |
-| Tiles | `tiles(path, options, multi)` | Square options with an icon or a big number: household, rooms, furnishing. |
-| Segmented choice | `seg(path, options)` | A row of two or three choices, one selected. |
+| Text field | `textField(label, path, options)` | Inside `.form`, fields that follow each other join into one card: label left, value right. An error shows under the field only when there is one. |
+| Form | `.form` | Wrap a form's fields in it. It gives the card layout and the even spacing. |
+| Question card | `<div class="field">` with `vhead(icon, '', title)` first | The card for one question: icon badge and title, then the control. Leave the value empty in a form. |
+| Choice | `tiles(path, options, multi, unset)` | A row of segments, the chosen one filled orange: household, rooms, furnishing. `multi` allows several; `unset` lets a second tap unselect. |
+| Value row | `vhead(icon, value, title)` inside `.vlist` | Icon left, value in the middle, title right. Used for the profile summary and in the viewing request sheet. |
 | Chip | `.chip` | Pill toggle for lists: neighbourhoods, features. Selected is orange. `.chip.mini` for removable filter chips. |
-| Slider | `slider(label, path, max, step, icon)` | One thumb (income, rent). The filter sheet has two-thumb sliders. |
+| Slider | `slider(label, path, max, step, icon)` | One thumb (income, budget), the amount shown under the track. The filter sheet has two-thumb sliders (price, size). |
 | Switch | `.switch` | On is orange. |
-| Apartment card | `aptCard(a)` | Used in Apartments and My viewings. |
-| Sheet | `SHEETS.<name>` with `sheetHead(title)` | Bottom sheet with a title and a close button. Open with `data-act="sheet" data-name="<name>"`. |
+| Apartment card | `aptCard(a)` | Used in Apartments and Viewings. |
+| Sheet | `SHEETS.<name>` with `sheetHead(title)` | Bottom sheet with a title and a close button. Open with `data-act="sheet" data-name="<name>"`. Add the class `tall` for a long form (Filters, Edit profile), with the button in `.sheet-foot`. |
 | Toast | `toast(message, kind)` | Kinds: `info`, `success`, `error`. |
 | Notice | `.notice`, `.notice.warn`, `.notice.error` | An inline message with an icon. |
 | Empty or error state | `.center` with `ic(name, 'xl')` | Big icon in a soft orange circle, a short title, one line, an optional button. |
-| Tab bar | `tabbar()` | Three tabs. Adding a tab changes the app's structure: say so in `CHANGES.md`. |
+| Tab bar | `tabbar()` | Three tabs, icons only, with a sliding orange pill. Adding a tab changes the app's structure and the pill's width: say so in `CHANGES.md`. |
 
 How the code works: one state object `S`, and `render()` redraws the screen. A tap on anything with
 `data-act="name"` runs `A.name`. New state goes into `S`; new actions into `A`. Nothing contacts a server:

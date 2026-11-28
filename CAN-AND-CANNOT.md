@@ -24,7 +24,7 @@ Ideas like these fit the app as it is.
 - A new way to filter or sort the list, using that same information.
 - A new piece of information on an apartment. Staff would fill it in for each apartment in Notion.
 - A new question in the client's profile. Today the profile has: name, company, household (single, couple,
-  family), net income, preferred rent, preferred rooms, furnished or not, notifications on or off. The client
+  family), income, budget (the rent they look for), rooms, furnished or not, notifications on or off. The client
   can edit these.
 - Something a client keeps for themselves: saved apartments, a note, a choice that is remembered.
 - A change to the viewing request: what the client is told, what they confirm, an extra question they answer.
